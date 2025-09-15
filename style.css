@@ -6,7 +6,8 @@
 }
 
 body {
-    font-family: 'Cairo', Arial, sans-serif;
+    font-family: 'Tajawal', Arial, sans-serif;
+    font-size: 1.08em;
     background: linear-gradient(135deg, #e0f7fa 0%, #fce4ec 100%);
     margin: 0;
     padding: 0;
