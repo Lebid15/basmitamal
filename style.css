@@ -1,3 +1,37 @@
+/* صناديق أوروبا */
+.europe-boxes {
+    background: #e0f7fa;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(44, 62, 80, 0.10);
+    padding: 18px 18px 12px 18px;
+    margin: 18px auto 0 auto;
+    max-width: 480px;
+    font-size: 0.93em;
+    color: #333;
+    text-align: right;
+    border: 2px solid #81d4fa;
+    direction: rtl;
+}
+.europe-title {
+    color: #1976d2;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 1em;
+}
+.europe-content {
+    margin-bottom: 4px;
+}
+.europe-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+}
+.europe-list li {
+    margin-bottom: 4px;
+    font-size: 0.93em;
+    direction: rtl;
+}
 .payment-main-title {
     font-size: 1em;
     color: #388e3c;
