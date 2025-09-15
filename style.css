@@ -40,7 +40,7 @@ header {
     padding: 0 6px;
 }
 .donation-campaign {
-    font-size: 1.1em;
+    font-size: 1em;
     color: #388e3c;
     font-weight: 500;
     background: #e0f2f1;
@@ -110,7 +110,7 @@ main {
     border-radius: 10px;
     box-shadow: 0 1px 4px rgba(56, 142, 60, 0.05);
     font-size: 1em;
-    color: #388e3c;
+    color: #1f271f;
     max-width: 500px;
 }
 .bismillah {
@@ -126,16 +126,17 @@ main {
     margin-top: 1px;
 }
 footer {
-    background: #e0f2f1;
-    padding: 12px 0 1px 0;
+    background: #ffffff;
+    padding: 0;
     text-align: center;
-    border-top: 1px solid #b2dfdb;
+    border-top: 1px solid #4da79f;
+    font-size: 0.85em;
 }
 /* وسائل الدفع والتواصل */
 .payment-methods h2 {
     color: #388e3c;
-    margin-bottom: 1px;
-    font-size: 1.1em;
+    margin-bottom: 0px;
+    font-size: 1em;
 }
 .icons {
     display: flex;
