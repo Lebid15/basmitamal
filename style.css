@@ -229,12 +229,12 @@ footer {
     direction: rtl;
 }
 /* بطاقات وسائل الدفع الديناميكية */
-.payments-wrapper {display:flex;flex-direction:column;gap:12px;max-width:520px;margin:14px auto 0 auto;}
-.payment-card {background:#e0f7fa;border:2px solid #81d4fa;border-radius:16px;padding:12px 16px;box-shadow:0 3px 12px rgba(0,0,0,.07);text-align:right;position:relative;display:flex;align-items:center;gap:10px;font-size:.92em;flex-wrap:wrap;}
-.payment-card h4 {margin:0;font-size:1em;color:#1976d2;display:inline-block;}
-.payment-card .entity {font-weight:600;color:#0d3c55;font-size:.92em;display:inline-block;}
-.payment-card .sep {color:#1976d2;opacity:.45;padding:0 4px;font-weight:300;}
-.payment-card .phone {font-size:.9em;direction:ltr;display:inline-block;background:#ffffff;padding:5px 12px;border-radius:8px;border:1px solid #bcd6e2;}
+.payments-wrapper {display:flex;flex-direction:column;gap:8px;max-width:520px;margin:10px auto 0 auto;}
+.payment-card {background:#e0f7fa;border:2px solid #81d4fa;border-radius:14px;padding:8px 12px;box-shadow:0 2px 8px rgba(0,0,0,.05);text-align:right;position:relative;display:flex;align-items:center;gap:6px;font-size:.86em;flex-wrap:nowrap;white-space:nowrap;overflow:hidden;}
+.payment-card h4 {margin:0;font-size:.92em;color:#1976d2;display:inline-block;font-weight:600;}
+.payment-card .entity {font-weight:600;color:#0d3c55;font-size:.85em;display:inline-block;overflow:hidden;text-overflow:ellipsis;max-width:120px;}
+.payment-card .sep {color:#1976d2;opacity:.4;padding:0 2px;font-weight:300;}
+.payment-card .phone {font-size:.88em;direction:ltr;display:inline-block;background:#ffffff;padding:4px 10px;border-radius:6px;border:1px solid #bcd6e2;}
 .payment-card a.phone {color:#1976d2;text-decoration:none;}
 .payment-card a.phone:hover {text-decoration:underline;}
 .payment-empty {text-align:center;font-size:.8em;color:#777;margin-top:8px;}
@@ -268,10 +268,10 @@ footer {
     main {
         font-size: 0.8em;
     }
-    .payment-card {font-size:.95em;padding:14px 16px;gap:12px;}
-    .payment-card h4 {font-size:1.05em;}
-    .payment-card .entity {font-size:1em;}
-    .payment-card .phone {font-size:.95em;padding:7px 14px;}
+    .payment-card {font-size:.9em;padding:9px 10px;gap:5px;border-radius:12px;}
+    .payment-card h4 {font-size:.9em;}
+    .payment-card .entity {font-size:.82em;max-width:90px;}
+    .payment-card .phone {font-size:.9em;padding:5px 10px;}
     .donations-summary {flex-direction:column;gap:10px;align-items:flex-start;}
     .donations-summary button {width:100%;}
     .campaign-banner {max-width:92%;}
