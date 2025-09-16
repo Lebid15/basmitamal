@@ -31,7 +31,7 @@
             </div>
         </section>
         <div id="donations-summary" class="donations-summary" style="display:none;">
-            <div>المجموع الكلي: <span class="total" id="total-amount">0</span> <span style="font-size:.75em;">دولار</span></div>
+            <div>المجموع الكلي: <span class="total" id="total-amount" dir="ltr">0</span> <span style="font-size:.75em;">دولار</span></div>
             <button id="show-donors-btn" type="button">أسماء المتبرعين</button>
         </div>
         <main>
@@ -73,7 +73,7 @@
                 const { data, error } = await sb.from('donations').select('donor_name, amount_usd, created_at').order('id',{ascending:false});
                 if(error){summaryBox.style.display='none';return;}
                 const total = data.reduce((acc,r)=> acc + Number(r.amount_usd||0),0);
-                totalAmountSpan.textContent = total.toLocaleString('ar-EG',{minimumFractionDigits:2, maximumFractionDigits:2});
+                totalAmountSpan.textContent = total.toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2});
                 summaryBox.style.display='flex';
                 window.__donorsList = data; // للتخزين
             }
@@ -82,7 +82,7 @@
                 const data = window.__donorsList || [];
                 const backdrop=document.createElement('div');backdrop.className='modal-backdrop';
                 const modal=document.createElement('div');modal.className='modal';
-                modal.innerHTML = `<h3>أسماء المتبرعين</h3><ul class='list'>${data.map(d=>`<li><span>${d.donor_name||'-'}</span><span class='amount'>${Number(d.amount_usd).toLocaleString('ar-EG',{minimumFractionDigits:2, maximumFractionDigits:2})}</span></li>`).join('')}</ul><button class='close-btn'>إغلاق</button>`;
+                modal.innerHTML = `<h3>أسماء المتبرعين</h3><ul class='list'>${data.map(d=>`<li><span>${d.donor_name||'-'}</span><span class='amount' dir='ltr'>${Number(d.amount_usd).toLocaleString('en-US',{minimumFractionDigits:2, maximumFractionDigits:2})}</span></li>`).join('')}</ul><button class='close-btn'>إغلاق</button>`;
                 backdrop.appendChild(modal);document.body.appendChild(backdrop);
                 backdrop.addEventListener('click',e=>{if(e.target===backdrop) backdrop.remove();});
                 modal.querySelector('.close-btn').addEventListener('click',()=>backdrop.remove());
