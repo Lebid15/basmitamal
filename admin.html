@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>لوحة الإدارة - يد بيد</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { background:#f5faff; }
+    .admin-wrapper {max-width:560px;margin:30px auto;padding:24px;background:#ffffff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.06);font-family:'Tajawal',sans-serif;}
+    h1 {margin-top:0;font-size:1.4rem;color:#1976d2;text-align:center;}
+    form {margin:0 0 18px 0;}
+    label {display:block;font-weight:600;margin-bottom:4px;color:#0d3c55;font-size:.85rem;}
+    input {width:100%;padding:10px 12px;border:1px solid #bcd6e2;border-radius:8px;font-family:inherit;font-size:.9rem;box-sizing:border-box;}
+    input:focus {outline:2px solid #81d4fa;border-color:#81d4fa;}
+    .btn {background:#1976d2;color:#fff;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;}
+    .btn.secondary {background:#607d8b;}
+    .btn:disabled {opacity:.5;cursor:not-allowed;}
+    .section {padding:14px 16px;border:1px solid #d0e6ef;border-radius:12px;background:#e9f6fb;margin-bottom:18px;}
+    .hidden {display:none !important;}
+    .status {font-size:.8rem;margin-top:6px;min-height:18px;}
+    .error {color:#d32f2f;}
+    .success {color:#2e7d32;}
+    .forms-grid {display:grid;gap:14px;}
+    .pair {display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    footer {text-align:center;margin-top:22px;font-size:.7rem;color:#777;}
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script defer src="admin.js"></script>
+</head>
+<body>
+  <div class="admin-wrapper">
+    <h1>لوحة الإدارة</h1>
+
+    <!-- شاشة الدخول -->
+    <div id="login-view">
+      <form id="login-form" autocomplete="on">
+        <div class="section">
+          <label for="login-email">البريد الإلكتروني</label>
+          <input id="login-email" type="email" required placeholder="admin@example.com" />
+          <label for="login-password" style="margin-top:10px;">كلمة المرور</label>
+          <input id="login-password" type="password" required placeholder="••••••" />
+          <button class="btn" style="margin-top:14px;" type="submit" id="login-btn">تسجيل الدخول</button>
+          <div id="login-status" class="status"></div>
+        </div>
+      </form>
+    </div>
+
+    <!-- محتوى الإدارة بعد تسجيل الدخول -->
+    <div id="admin-view" class="hidden">
+      <div class="section" style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-weight:600;color:#0d3c55;font-size:.9rem">مرحبا <span id="admin-email"></span></div>
+        <button class="btn secondary" id="logout-btn">تسجيل خروج</button>
+      </div>
+
+      <form id="combined-form">
+        <div class="section">
+          <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">إدخال بيانات التبرع</h3>
+          <label for="donor_name">اسم المتبرع</label>
+          <input id="donor_name" required />
+          <label for="amount_usd" style="margin-top:10px;">المبلغ (دولار)</label>
+          <input id="amount_usd" type="number" min="0" step="0.01" required />
+        </div>
+        <div class="section" style="margin-top:14px;">
+          <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">تفاصيل الدفع</h3>
+          <label for="title">العنوان</label>
+          <input id="title" required />
+          <label for="entity_name" style="margin-top:10px;">اسم الجهة</label>
+          <input id="entity_name" required />
+          <label for="phone" style="margin-top:10px;">رقم الجوال</label>
+          <input id="phone" required />
+        </div>
+        <button class="btn" style="margin-top:16px;" type="submit" id="save-btn">حفظ السجلات</button>
+        <div id="save-status" class="status"></div>
+      </form>
+    </div>
+
+    <footer>© يد بيد - صفحة الإدارة</footer>
+  </div>
+</body>
+</html>
