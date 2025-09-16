@@ -25,6 +25,12 @@
     .forms-grid {display:grid;gap:14px;}
     .pair {display:grid;grid-template-columns:1fr 1fr;gap:10px;}
     footer {text-align:center;margin-top:22px;font-size:.7rem;color:#777;}
+    /* التبويبات */
+    .tabs-bar {display:flex;gap:8px;margin:10px 0 18px 0;}
+    .tab-btn {flex:1;background:#e0f2f8;border:1px solid #bcd6e2;padding:10px 0;border-radius:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:600;color:#1976d2;font-size:.85rem;transition:.15s;}
+    .tab-btn.active {background:#1976d2;color:#fff;box-shadow:0 4px 12px rgba(25,118,210,.25);}
+    .tab-section {display:none;}
+    .tab-section.active {display:block;}
   </style>
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script defer src="admin.js"></script>
@@ -54,7 +60,12 @@
         <button class="btn secondary" id="logout-btn">تسجيل خروج</button>
       </div>
 
-      <!-- نموذج إضافة متبرع -->
+      <div class="tabs-bar" id="tabs-bar" style="display:none;">
+        <button type="button" data-tab="donors" class="tab-btn active" id="tab-donors">المتبرعون</button>
+        <button type="button" data-tab="payments" class="tab-btn" id="tab-payments">وسائل الدفع</button>
+      </div>
+
+      <div id="donor-section" class="tab-section active">
       <form id="donor-form">
         <div class="section">
           <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">إضافة متبرع جديد</h3>
@@ -83,8 +94,10 @@
         </table>
       </div>
 
-      <!-- نموذج إضافة وسيلة دفع -->
-      <form id="payment-form" style="margin-top:18px;">
+      </div><!-- نهاية donor-section -->
+
+      <div id="payment-section" class="tab-section">
+      <form id="payment-form" style="margin-top:0;">
         <div class="section">
           <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">إضافة وسيلة دفع</h3>
           <label for="title">العنوان</label>
@@ -113,7 +126,8 @@
           </thead>
           <tbody></tbody>
         </table>
-      </div>
+  </div>
+  </div><!-- نهاية payment-section -->
     </div>
 
     <footer>© يد بيد - صفحة الإدارة</footer>

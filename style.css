@@ -229,13 +229,30 @@ footer {
 }
 /* بطاقات وسائل الدفع الديناميكية */
 .payments-wrapper {display:flex;flex-direction:column;gap:12px;max-width:520px;margin:14px auto 0 auto;}
-.payment-card {background:#e0f7fa;border:2px solid #81d4fa;border-radius:14px;padding:12px 14px;box-shadow:0 2px 10px rgba(0,0,0,.06);text-align:right;position:relative;}
-.payment-card h4 {margin:0 0 6px 0;font-size:.95em;color:#1976d2;}
-.payment-card .entity {font-weight:600;color:#0d3c55;font-size:.85em;}
-.payment-card .phone {margin-top:4px;font-size:.8em;direction:ltr;display:inline-block;background:#fff;padding:2px 6px;border-radius:6px;border:1px solid #bcd6e2;}
+.payment-card {background:#e0f7fa;border:2px solid #81d4fa;border-radius:14px;padding:10px 12px;box-shadow:0 2px 10px rgba(0,0,0,.06);text-align:right;position:relative;display:flex;align-items:center;gap:8px;font-size:.83em;flex-wrap:wrap;}
+.payment-card h4 {margin:0;font-size:.9em;color:#1976d2;display:inline-block;}
+.payment-card .entity {font-weight:600;color:#0d3c55;font-size:.85em;display:inline-block;}
+.payment-card .sep {color:#1976d2;opacity:.4;padding:0 2px;}
+.payment-card .phone {font-size:.78em;direction:ltr;display:inline-block;background:#fff;padding:2px 6px;border-radius:6px;border:1px solid #bcd6e2;}
 .payment-card a.phone {color:#1976d2;text-decoration:none;}
 .payment-card a.phone:hover {text-decoration:underline;}
 .payment-empty {text-align:center;font-size:.8em;color:#777;margin-top:8px;}
+
+/* ملخص التبرعات */
+.donations-summary {max-width:520px;margin:12px auto 14px auto;background:#fff;border:2px solid #81d4fa;border-radius:14px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:.9em;box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.donations-summary .total {font-weight:700;color:#1976d2;}
+.donations-summary button {background:#1976d2;color:#fff;border:none;border-radius:8px;padding:6px 14px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.75rem;}
+.donations-summary button:hover {background:#0d5fa8;}
+
+/* النافذة المنبثقة */
+.modal-backdrop {position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:1000;padding:10px;}
+.modal {background:#ffffff;border-radius:16px;max-width:420px;width:100%;padding:18px 20px;box-shadow:0 8px 32px rgba(0,0,0,.25);font-size:.85rem;}
+.modal h3 {margin:0 0 10px 0;font-size:1rem;color:#1976d2;text-align:center;}
+.modal .list {max-height:340px;overflow-y:auto;margin:0;padding:0;list-style:none;}
+.modal .list li {padding:6px 8px;border-bottom:1px solid #e0f0f5;display:flex;justify-content:space-between;gap:10px;}
+.modal .list li span.amount {color:#388e3c;font-weight:600;}
+.modal .close-btn {margin-top:12px;width:100%;background:#607d8b;color:#fff;border:none;padding:8px 0;border-radius:10px;cursor:pointer;font-size:.8rem;}
+.modal .close-btn:hover {background:#546e7a;}
 @media (max-width: 600px) {
     .container {
         max-width: 99vw;

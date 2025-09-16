@@ -23,6 +23,24 @@ const addPaymentBtn = document.getElementById('add-payment-btn');
 // الجداول
 const donorsTableBody = document.querySelector('#donors-table tbody');
 const paymentsTableBody = document.querySelector('#payments-table tbody');
+// تبويبات
+let tabsBar, donorSection, paymentSection, tabDonorsBtn, tabPaymentsBtn;
+document.addEventListener('DOMContentLoaded', () => {
+  tabsBar = document.getElementById('tabs-bar');
+  donorSection = document.getElementById('donor-section');
+  paymentSection = document.getElementById('payment-section');
+  tabDonorsBtn = document.getElementById('tab-donors');
+  tabPaymentsBtn = document.getElementById('tab-payments');
+  function activate(tab){
+    if(!donorSection||!paymentSection) return;
+    if(tab==='donors'){ donorSection.classList.add('active'); paymentSection.classList.remove('active'); tabDonorsBtn.classList.add('active'); tabPaymentsBtn.classList.remove('active'); }
+    else { paymentSection.classList.add('active'); donorSection.classList.remove('active'); tabPaymentsBtn.classList.add('active'); tabDonorsBtn.classList.remove('active'); }
+    // تمرير لأعلى
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  tabDonorsBtn?.addEventListener('click', ()=> activate('donors'));
+  tabPaymentsBtn?.addEventListener('click', ()=> activate('payments'));
+});
 
 async function checkSession() {
   const { data: { session } } = await supabaseClient.auth.getSession();
@@ -32,6 +50,8 @@ async function checkSession() {
     if (isAdmin) {
   showAdmin(session.user.email);
   afterLoginLoadData();
+  // إظهار شريط التبويبات بعد تسجيل الدخول
+  if (tabsBar) tabsBar.style.display = 'flex';
     } else {
       await supabaseClient.auth.signOut();
     }
@@ -78,6 +98,7 @@ loginForm?.addEventListener('submit', async (e) => {
       const { data: { user } } = await supabaseClient.auth.getUser();
   showAdmin(user.email);
   afterLoginLoadData();
+  if (tabsBar) tabsBar.style.display = 'flex';
     }
   }
   loginBtn.disabled = false;
