@@ -61,11 +61,12 @@
       </div>
 
       <div class="tabs-bar" id="tabs-bar" style="display:none;">
-        <button type="button" data-tab="donors" class="tab-btn active" id="tab-donors">المتبرعون</button>
+        <button type="button" data-tab="donors" class="tab-btn active" id="tab-donors">المتبرعون بالدولار</button>
+        <button type="button" data-tab="donors-tl" class="tab-btn" id="tab-donors-tl">المتبرعون بالتركي</button>
         <button type="button" data-tab="payments" class="tab-btn" id="tab-payments">وسائل الدفع</button>
       </div>
 
-      <div id="donor-section" class="tab-section active">
+  <div id="donor-section" class="tab-section active">
       <form id="donor-form">
         <div class="section">
           <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">إضافة متبرع جديد</h3>
@@ -95,6 +96,38 @@
       </div>
 
       </div><!-- نهاية donor-section -->
+
+      <!-- قسم المتبرعين بالليرة التركية -->
+      <div id="donor-tl-section" class="tab-section">
+      <form id="donor-tl-form">
+        <div class="section">
+          <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">إضافة متبرع (ليرة تركية)</h3>
+          <label for="donor_name_tl">اسم المتبرع</label>
+          <input id="donor_name_tl" required />
+          <label for="amount_tl" style="margin-top:10px;">المبلغ (TL)</label>
+          <input id="amount_tl" type="number" min="0" step="0.01" required />
+          <button class="btn" style="margin-top:14px;" type="submit" id="add-donor-tl-btn">إضافة المتبرع</button>
+          <div id="donor-tl-status" class="status"></div>
+        </div>
+      </form>
+
+      <div class="section" style="margin-top:8px;">
+        <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">آخر المتبرعين (TL)</h3>
+        <table id="donors-tl-table" style="width:100%;border-collapse:collapse;font-size:.8rem;">
+          <thead>
+            <tr style="background:#d7eef7;">
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">#</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">الاسم</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">المبلغ (TL)</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">التاريخ</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">إجراءات</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      </div><!-- نهاية donor-tl-section -->
 
       <div id="payment-section" class="tab-section">
       <form id="payment-form" style="margin-top:0;">

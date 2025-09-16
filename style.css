@@ -264,6 +264,9 @@ footer {
 .donations-summary .total {font-weight:700;color:#0d4f88;background:linear-gradient(90deg,#e3f2fd,#f0f7ff);padding:6px 18px;border:1px solid #b7d4ec;border-radius:14px;box-shadow:0 2px 6px rgba(13,79,136,.12) inset,0 1px 3px rgba(0,0,0,.05);font-size:1.18em;letter-spacing:.5px;}
 .donations-summary button {background:#1976d2;color:#fff;border:none;border-radius:8px;padding:6px 14px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.75rem;}
 .donations-summary button:hover {background:#0d5fa8;}
+.donations-summary .total-line {display:flex;justify-content:space-between;gap:12px;background:#f5fbfe;padding:6px 8px;border:1px dashed #b7d4ec;border-radius:12px;}
+.donations-summary .total-line h4 {margin:0;font-size:.85rem;color:#1976d2;}
+.modal .list li span.amount .currency {margin-left:4px;}
 
 /* النافذة المنبثقة */
 .modal-backdrop {position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:1000;padding:10px;}

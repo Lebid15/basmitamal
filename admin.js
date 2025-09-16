@@ -24,23 +24,35 @@ const addPaymentBtn = document.getElementById('add-payment-btn');
 const donorsTableBody = document.querySelector('#donors-table tbody');
 const paymentsTableBody = document.querySelector('#payments-table tbody');
 // تبويبات
-let tabsBar, donorSection, paymentSection, tabDonorsBtn, tabPaymentsBtn;
+let tabsBar, donorSection, donorTlSection, paymentSection, tabDonorsBtn, tabDonorsTlBtn, tabPaymentsBtn;
 document.addEventListener('DOMContentLoaded', () => {
   tabsBar = document.getElementById('tabs-bar');
   donorSection = document.getElementById('donor-section');
+  donorTlSection = document.getElementById('donor-tl-section');
   paymentSection = document.getElementById('payment-section');
   tabDonorsBtn = document.getElementById('tab-donors');
+  tabDonorsTlBtn = document.getElementById('tab-donors-tl');
   tabPaymentsBtn = document.getElementById('tab-payments');
   function activate(tab){
     if(!donorSection||!paymentSection) return;
-    if(tab==='donors'){ donorSection.classList.add('active'); paymentSection.classList.remove('active'); tabDonorsBtn.classList.add('active'); tabPaymentsBtn.classList.remove('active'); }
-    else { paymentSection.classList.add('active'); donorSection.classList.remove('active'); tabPaymentsBtn.classList.add('active'); tabDonorsBtn.classList.remove('active'); }
+    // إعادة ضبط
+    donorSection.classList.remove('active');
+    donorTlSection && donorTlSection.classList.remove('active');
+    paymentSection.classList.remove('active');
+    tabDonorsBtn.classList.remove('active');
+    tabDonorsTlBtn && tabDonorsTlBtn.classList.remove('active');
+    tabPaymentsBtn.classList.remove('active');
+    if(tab==='donors'){ donorSection.classList.add('active'); tabDonorsBtn.classList.add('active'); }
+    else if(tab==='donors-tl'){ donorTlSection && donorTlSection.classList.add('active'); tabDonorsTlBtn && tabDonorsTlBtn.classList.add('active'); }
+    else { paymentSection.classList.add('active'); tabPaymentsBtn.classList.add('active'); }
     // تمرير لأعلى
     window.scrollTo({top:0,behavior:'smooth'});
   }
   tabDonorsBtn?.addEventListener('click', ()=> activate('donors'));
+  tabDonorsTlBtn?.addEventListener('click', ()=> activate('donors-tl'));
   tabPaymentsBtn?.addEventListener('click', ()=> activate('payments'));
 });
+const donorsTlTableBody = document.querySelector('#donors-tl-table tbody');
 
 async function checkSession() {
   const { data: { session } } = await supabaseClient.auth.getSession();
@@ -135,7 +147,35 @@ async function loadDonations() {
         <button class="act-btn del-donation" style="background:#d32f2f;color:#fff;border:none;padding:3px 6px;border-radius:4px;font-size:.65rem;cursor:pointer;">حذف</button>
       </td>
     </tr>`).join('');
+
 }
+
+// تحميل متبرعين الليرة
+async function loadDonationsTl() {
+  donorsTlTableBody && (donorsTlTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">... تحميل</td></tr>');
+  const { data, error } = await supabaseClient.from('donations_tl').select('*').order('id', { ascending: false }).limit(20);
+  if (!donorsTlTableBody) return;
+  if (error) {
+    donorsTlTableBody.innerHTML = `<tr><td colspan="4" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
+    return;
+  }
+  if (!data.length) {
+    donorsTlTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
+    return;
+  }
+  donorsTlTableBody.innerHTML = data.map(row => `
+    <tr data-id="${row.id}" data-type="donation-tl">
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;">${row.id}</td>
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;">${row.donor_name || ''}</td>
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;">${row.amount_tl}</td>
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;">${new Date(row.created_at).toLocaleDateString('ar-EG')}</td>
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;white-space:nowrap;">
+        <button class="act-btn edit-donation-tl" style="background:#0288d1;color:#fff;border:none;padding:3px 6px;border-radius:4px;font-size:.65rem;cursor:pointer;">تعديل</button>
+        <button class="act-btn del-donation-tl" style="background:#d32f2f;color:#fff;border:none;padding:3px 6px;border-radius:4px;font-size:.65rem;cursor:pointer;">حذف</button>
+      </td>
+    </tr>`).join('');
+}
+// نهاية loadDonations
 
 async function loadPayments() {
   paymentsTableBody && (paymentsTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">... تحميل</td></tr>');
@@ -189,6 +229,28 @@ document.addEventListener('click', async (e) => {
     const { error } = await supabaseClient.from('donations').delete().eq('id', id);
     if (error) alert('خطأ: ' + error.message); else loadDonations();
   }
+  else if (target.classList.contains('edit-donation-tl')) {
+    const tr = target.closest('tr');
+    if (!tr) return; const id = tr.getAttribute('data-id');
+    const nameCell = tr.children[1].textContent.trim();
+    const amountCell = tr.children[2].textContent.trim();
+    const newName = prompt('تعديل اسم المتبرع (TL):', nameCell);
+    if (newName === null) return;
+    const newAmountStr = prompt('تعديل المبلغ (TL):', amountCell);
+    if (newAmountStr === null) return;
+    const newAmount = parseFloat(newAmountStr);
+    if (!newName || isNaN(newAmount)) { alert('بيانات غير صالحة'); return; }
+    const { error } = await supabaseClient.from('donations_tl').update({ donor_name: newName, amount_tl: newAmount }).eq('id', id);
+    if (error) alert('خطأ: ' + error.message); else loadDonationsTl();
+  }
+  else if (target.classList.contains('del-donation-tl')) {
+    const tr = target.closest('tr');
+    if (!tr) return; const id = tr.getAttribute('data-id');
+    if (!confirm('حذف المتبرع (TL) رقم ' + id + '؟')) return;
+    const { error } = await supabaseClient.from('donations_tl').delete().eq('id', id);
+    if (error) alert('خطأ: ' + error.message); else loadDonationsTl();
+  }
+  
   else if (target.classList.contains('edit-payment')) {
     const tr = target.closest('tr');
     if (!tr) return; const id = tr.getAttribute('data-id');
@@ -209,9 +271,9 @@ document.addEventListener('click', async (e) => {
     const { error } = await supabaseClient.from('payment_details').delete().eq('id', id);
     if (error) alert('خطأ: ' + error.message); else loadPayments();
   }
-});
+}); // نهاية تفويض الأحداث
 
-// إضافة متبرع
+// إضافة متبرع بالدولار
 donorForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
   donorStatus.textContent = '';
@@ -240,6 +302,41 @@ donorForm?.addEventListener('submit', async (e) => {
   } finally {
     addDonorBtn.disabled = false;
     addDonorBtn.textContent = 'إضافة المتبرع';
+  }
+});
+
+// إضافة متبرع TL
+const donorTlForm = document.getElementById('donor-tl-form');
+const donorTlStatus = document.getElementById('donor-tl-status');
+const addDonorTlBtn = document.getElementById('add-donor-tl-btn');
+donorTlForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  donorTlStatus.textContent='';
+  donorTlStatus.className='status';
+  addDonorTlBtn.disabled=true;
+  addDonorTlBtn.textContent='... جاري الإضافة';
+  const donor_name = document.getElementById('donor_name_tl').value.trim();
+  const amount_tl = parseFloat(document.getElementById('amount_tl').value || '0');
+  if(!donor_name || isNaN(amount_tl)){
+    donorTlStatus.textContent='أدخل اسم المتبرع والمبلغ الصحيح';
+    donorTlStatus.className='status error';
+    addDonorTlBtn.disabled=false;
+    addDonorTlBtn.textContent='إضافة المتبرع';
+    return;
+  }
+  try {
+    const { error } = await supabaseClient.from('donations_tl').insert({ donor_name, amount_tl });
+    if(error) throw error;
+    donorTlStatus.textContent='تمت الإضافة';
+    donorTlStatus.className='status success';
+    donorTlForm.reset();
+    loadDonationsTl();
+  } catch(err){
+    donorTlStatus.textContent='فشل: ' + (err.message||err);
+    donorTlStatus.className='status error';
+  } finally {
+    addDonorTlBtn.disabled=false;
+    addDonorTlBtn.textContent='إضافة المتبرع';
   }
 });
 
@@ -278,8 +375,11 @@ paymentForm?.addEventListener('submit', async (e) => {
 
 function afterLoginLoadData(){
   loadDonations();
+  loadDonationsTl();
   loadPayments();
 }
 
 // عند تحميل الصفحة
 checkSession();
+
+// ضمان إغلاق جميع الكتل (لا يوجد كود إضافي)
