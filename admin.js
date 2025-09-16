@@ -178,15 +178,15 @@ async function loadDonationsTl() {
 // نهاية loadDonations
 
 async function loadPayments() {
-  paymentsTableBody && (paymentsTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">... تحميل</td></tr>');
+  paymentsTableBody && (paymentsTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">... تحميل</td></tr>');
   const { data, error } = await supabaseClient.from('payment_details').select('*').order('id', { ascending: false }).limit(30);
   if (!paymentsTableBody) return;
   if (error) {
-    paymentsTableBody.innerHTML = `<tr><td colspan="5" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
+    paymentsTableBody.innerHTML = `<tr><td colspan="4" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
     return;
   }
   if (!data.length) {
-    paymentsTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
+    paymentsTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
     return;
   }
   paymentsTableBody.innerHTML = data.map(row => `
@@ -195,7 +195,6 @@ async function loadPayments() {
       <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.title}</td>
       <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.entity_name}</td>
       <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.phone}</td>
-      <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${new Date(row.created_at).toLocaleDateString('ar-EG')}</td>
       <td style=\"padding:4px 6px;border:1px solid #c2dbe5;white-space:nowrap;\">
         <button class=\"act-btn edit-payment\" style=\"background:#0288d1;color:#fff;border:none;padding:3px 6px;border-radius:4px;font-size:.65rem;cursor:pointer;\">تعديل</button>
         <button class=\"act-btn del-payment\" style=\"background:#d32f2f;color:#fff;border:none;padding:3px 6px;border-radius:4px;font-size:.65rem;cursor:pointer;\">حذف</button>
