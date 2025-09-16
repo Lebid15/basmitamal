@@ -239,6 +239,20 @@ footer {
 .payment-card a.phone:hover {text-decoration:underline;}
 .payment-empty {text-align:center;font-size:.8em;color:#777;margin-top:8px;}
 
+/* Shamcash Section */
+.shamcash-wrapper {max-width:520px;margin:18px auto 10px auto;background:#fff;border:2px dashed #81d4fa;border-radius:16px;padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.05);} 
+.shamcash-title {margin:0 0 10px 0;font-size:.95em;color:#1976d2;text-align:right;display:flex;gap:6px;align-items:center;font-weight:600;}
+.shamcash-title .ar {color:#0d4f88;font-weight:500;font-size:.9em;}
+.shamcash-card {display:flex;flex-direction:column;gap:10px;}
+.shamcash-image-holder {text-align:center;}
+.shamcash-image-holder img {max-width:180px;width:60%;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.shamcash-account-line {display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;}
+.shamcash-account-line code {background:#e3f2fd;padding:6px 10px;border-radius:8px;font-size:.7rem;direction:ltr;letter-spacing:.5px;border:1px solid #b7d4ec;}
+.copy-btn {background:#1976d2;color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.65rem;box-shadow:0 2px 6px rgba(0,0,0,.18);} 
+.copy-btn:hover {background:#0d5fa8;}
+.copy-hint {margin-top:4px;text-align:center;font-size:.65rem;color:#388e3c;opacity:0;transition:opacity .3s ease;}
+.copy-hint.show {opacity:1;}
+
 /* ملخص التبرعات */
 .donations-summary {max-width:520px;margin:12px auto 14px auto;background:#fff;border:2px solid #81d4fa;border-radius:14px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:.9em;box-shadow:0 2px 10px rgba(0,0,0,.06);}
 .donations-summary .total {font-weight:700;color:#0d4f88;background:linear-gradient(90deg,#e3f2fd,#f0f7ff);padding:6px 18px;border:1px solid #b7d4ec;border-radius:14px;box-shadow:0 2px 6px rgba(13,79,136,.12) inset,0 1px 3px rgba(0,0,0,.05);font-size:1.18em;letter-spacing:.5px;}
@@ -275,4 +289,8 @@ footer {
     .donations-summary {flex-direction:column;gap:10px;align-items:flex-start;}
     .donations-summary button {width:100%;}
     .campaign-banner {max-width:92%;}
+    .shamcash-wrapper {padding:12px 12px;margin:16px auto 8px auto;}
+    .shamcash-image-holder img {max-width:160px;width:70%;}
+    .shamcash-account-line code {font-size:.62rem;}
+    .copy-btn {font-size:.6rem;padding:5px 12px;}
 }

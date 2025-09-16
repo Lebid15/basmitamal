@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20250916a">
+    <link rel="stylesheet" href="style.css?v=20250916b">
 </head>
 <body>
     <div class="container">
@@ -47,6 +47,20 @@
             <div class="payment-methods">
                 <h2 class="payment-main-title">وسائل الدفع والتواصل</h2>
                 <div id="dynamic-payments" class="payments-wrapper"></div>
+                <!-- Shamcash static section -->
+                <section class="shamcash-wrapper" id="shamcash">
+                    <h3 class="shamcash-title">Shamcash <span class="ar">شام كاش</span></h3>
+                    <div class="shamcash-card">
+                        <div class="shamcash-image-holder">
+                            <img src="images/shamcash.jpg" alt="Shamcash" loading="lazy" />
+                        </div>
+                        <div class="shamcash-account-line">
+                            <code id="shamcash-account" dir="ltr">b41bb25b8d36088bd6eec0c341ae52ed</code>
+                            <button type="button" class="copy-btn" id="copy-shamcash">نسخ</button>
+                        </div>
+                        <div class="copy-hint" id="copy-hint" style="display:none;">تم النسخ</div>
+                    </div>
+                </section>
             </div>
         </footer>
     </div>
@@ -97,6 +111,20 @@
             }
 
             showDonorsBtn.addEventListener('click', openDonorsModal);
+
+            // Copy Shamcash account
+            const copyBtn = document.getElementById('copy-shamcash');
+            if(copyBtn){
+                copyBtn.addEventListener('click',()=>{
+                    const acc = document.getElementById('shamcash-account').textContent.trim();
+                    navigator.clipboard.writeText(acc).then(()=>{
+                        const hint = document.getElementById('copy-hint');
+                        hint.style.display='inline-block';
+                        hint.classList.add('show');
+                        setTimeout(()=>{hint.style.display='none';hint.classList.remove('show');},1800);
+                    });
+                });
+            }
 
             loadPaymentsPublic();
             loadDonationsSummary();
