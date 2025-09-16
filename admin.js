@@ -104,11 +104,15 @@ async function loadDonations() {
     return;
   }
   donorsTableBody.innerHTML = data.map(row => `
-    <tr>
+    <tr data-id="${row.id}" data-type="donation">
       <td style="padding:4px 6px;border:1px solid #c2dbe5;">${row.id}</td>
       <td style="padding:4px 6px;border:1px solid #c2dbe5;">${row.donor_name || ''}</td>
       <td style="padding:4px 6px;border:1px solid #c2dbe5;">${row.amount_usd}</td>
       <td style="padding:4px 6px;border:1px solid #c2dbe5;">${new Date(row.created_at).toLocaleDateString('ar-EG')}</td>
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;white-space:nowrap;">
+        <button class="act-btn edit-donation" style="background:#0288d1;color:#fff;border:none;padding:3px 6px;border-radius:4px;font-size:.65rem;cursor:pointer;">تعديل</button>
+        <button class="act-btn del-donation" style="background:#d32f2f;color:#fff;border:none;padding:3px 6px;border-radius:4px;font-size:.65rem;cursor:pointer;">حذف</button>
+      </td>
     </tr>`).join('');
 }
 
@@ -125,14 +129,66 @@ async function loadPayments() {
     return;
   }
   paymentsTableBody.innerHTML = data.map(row => `
-    <tr>
+    <tr data-id="${row.id}" data-type="payment">
       <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.id}</td>
       <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.title}</td>
       <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.entity_name}</td>
       <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.phone}</td>
       <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${new Date(row.created_at).toLocaleDateString('ar-EG')}</td>
+      <td style=\"padding:4px 6px;border:1px solid #c2dbe5;white-space:nowrap;\">
+        <button class=\"act-btn edit-payment\" style=\"background:#0288d1;color:#fff;border:none;padding:3px 6px;border-radius:4px;font-size:.65rem;cursor:pointer;\">تعديل</button>
+        <button class=\"act-btn del-payment\" style=\"background:#d32f2f;color:#fff;border:none;padding:3px 6px;border-radius:4px;font-size:.65rem;cursor:pointer;\">حذف</button>
+      </td>
     </tr>`).join('');
 }
+
+// التعامل مع أزرار التعديل والحذف (تفويض أحداث)
+document.addEventListener('click', async (e) => {
+  const target = e.target;
+  if (!target || !target.classList) return;
+  if (target.classList.contains('edit-donation')) {
+    const tr = target.closest('tr');
+    if (!tr) return; const id = tr.getAttribute('data-id');
+    // جلب البيانات الحالية
+    const nameCell = tr.children[1].textContent.trim();
+    const amountCell = tr.children[2].textContent.trim();
+    const newName = prompt('تعديل اسم المتبرع:', nameCell);
+    if (newName === null) return;
+    const newAmountStr = prompt('تعديل المبلغ (دولار):', amountCell);
+    if (newAmountStr === null) return;
+    const newAmount = parseFloat(newAmountStr);
+    if (!newName || isNaN(newAmount)) { alert('بيانات غير صالحة'); return; }
+    const { error } = await supabaseClient.from('donations').update({ donor_name: newName, amount_usd: newAmount }).eq('id', id);
+    if (error) alert('خطأ: ' + error.message); else loadDonations();
+  }
+  else if (target.classList.contains('del-donation')) {
+    const tr = target.closest('tr');
+    if (!tr) return; const id = tr.getAttribute('data-id');
+    if (!confirm('حذف المتبرع رقم ' + id + '؟')) return;
+    const { error } = await supabaseClient.from('donations').delete().eq('id', id);
+    if (error) alert('خطأ: ' + error.message); else loadDonations();
+  }
+  else if (target.classList.contains('edit-payment')) {
+    const tr = target.closest('tr');
+    if (!tr) return; const id = tr.getAttribute('data-id');
+    const titleCell = tr.children[1].textContent.trim();
+    const entityCell = tr.children[2].textContent.trim();
+    const phoneCell = tr.children[3].textContent.trim();
+    const newTitle = prompt('تعديل العنوان:', titleCell); if (newTitle === null) return;
+    const newEntity = prompt('تعديل اسم الجهة:', entityCell); if (newEntity === null) return;
+    const newPhone = prompt('تعديل الهاتف/الحساب:', phoneCell); if (newPhone === null) return;
+    if (!newTitle || !newEntity || !newPhone) { alert('بيانات غير صالحة'); return; }
+    const { error } = await supabaseClient.from('payment_details').update({ title: newTitle, entity_name: newEntity, phone: newPhone }).eq('id', id);
+    if (error) alert('خطأ: ' + error.message); else loadPayments();
+  }
+  else if (target.classList.contains('del-payment')) {
+    const tr = target.closest('tr');
+    if (!tr) return; const id = tr.getAttribute('data-id');
+    if (!confirm('حذف الوسيلة رقم ' + id + '؟')) return;
+    const { error } = await supabaseClient.from('payment_details').delete().eq('id', id);
+    if (error) alert('خطأ: ' + error.message); else loadPayments();
+  }
+});
 
 // إضافة متبرع
 donorForm?.addEventListener('submit', async (e) => {
