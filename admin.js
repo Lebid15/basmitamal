@@ -13,9 +13,16 @@ const loginStatus = document.getElementById('login-status');
 const loginBtn = document.getElementById('login-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const adminEmailSpan = document.getElementById('admin-email');
-const combinedForm = document.getElementById('combined-form');
-const saveStatus = document.getElementById('save-status');
-const saveBtn = document.getElementById('save-btn');
+// عناصر النماذج الجديدة
+const donorForm = document.getElementById('donor-form');
+const donorStatus = document.getElementById('donor-status');
+const addDonorBtn = document.getElementById('add-donor-btn');
+const paymentForm = document.getElementById('payment-form');
+const paymentStatus = document.getElementById('payment-status');
+const addPaymentBtn = document.getElementById('add-payment-btn');
+// الجداول
+const donorsTableBody = document.querySelector('#donors-table tbody');
+const paymentsTableBody = document.querySelector('#payments-table tbody');
 
 async function checkSession() {
   const { data: { session } } = await supabaseClient.auth.getSession();
@@ -23,7 +30,8 @@ async function checkSession() {
     // تحقق أنه أدمن
     const isAdmin = await checkIsAdmin();
     if (isAdmin) {
-      showAdmin(session.user.email);
+  showAdmin(session.user.email);
+  afterLoginLoadData();
     } else {
       await supabaseClient.auth.signOut();
     }
@@ -68,7 +76,8 @@ loginForm?.addEventListener('submit', async (e) => {
       await supabaseClient.auth.signOut();
     } else {
       const { data: { user } } = await supabaseClient.auth.getUser();
-      showAdmin(user.email);
+  showAdmin(user.email);
+  afterLoginLoadData();
     }
   }
   loginBtn.disabled = false;
@@ -81,49 +90,119 @@ logoutBtn?.addEventListener('click', async () => {
   loginView.classList.remove('hidden');
 });
 
-combinedForm?.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  saveStatus.textContent = '';
-  saveStatus.className = 'status';
-  saveBtn.disabled = true;
-  saveBtn.textContent = '... جار الحفظ';
+// تحميل آخر السجلات
+async function loadDonations() {
+  donorsTableBody && (donorsTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">... تحميل</td></tr>');
+  const { data, error } = await supabaseClient.from('donations').select('*').order('id', { ascending: false }).limit(20);
+  if (!donorsTableBody) return;
+  if (error) {
+    donorsTableBody.innerHTML = `<tr><td colspan="4" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
+    return;
+  }
+  if (!data.length) {
+    donorsTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
+    return;
+  }
+  donorsTableBody.innerHTML = data.map(row => `
+    <tr>
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;">${row.id}</td>
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;">${row.donor_name || ''}</td>
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;">${row.amount_usd}</td>
+      <td style="padding:4px 6px;border:1px solid #c2dbe5;">${new Date(row.created_at).toLocaleDateString('ar-EG')}</td>
+    </tr>`).join('');
+}
 
+async function loadPayments() {
+  paymentsTableBody && (paymentsTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">... تحميل</td></tr>');
+  const { data, error } = await supabaseClient.from('payment_details').select('*').order('id', { ascending: false }).limit(30);
+  if (!paymentsTableBody) return;
+  if (error) {
+    paymentsTableBody.innerHTML = `<tr><td colspan="5" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
+    return;
+  }
+  if (!data.length) {
+    paymentsTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
+    return;
+  }
+  paymentsTableBody.innerHTML = data.map(row => `
+    <tr>
+      <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.id}</td>
+      <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.title}</td>
+      <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.entity_name}</td>
+      <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${row.phone}</td>
+      <td style=\"padding:4px 6px;border:1px solid #c2dbe5;\">${new Date(row.created_at).toLocaleDateString('ar-EG')}</td>
+    </tr>`).join('');
+}
+
+// إضافة متبرع
+donorForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  donorStatus.textContent = '';
+  donorStatus.className = 'status';
+  addDonorBtn.disabled = true;
+  addDonorBtn.textContent = '... جاري الإضافة';
   const donor_name = document.getElementById('donor_name').value.trim();
   const amount_usd = parseFloat(document.getElementById('amount_usd').value || '0');
+  if (!donor_name || isNaN(amount_usd)) {
+    donorStatus.textContent = 'أدخل اسم المتبرع والمبلغ الصحيح';
+    donorStatus.className = 'status error';
+    addDonorBtn.disabled = false;
+    addDonorBtn.textContent = 'إضافة المتبرع';
+    return;
+  }
+  try {
+    const { error } = await supabaseClient.from('donations').insert({ donor_name, amount_usd });
+    if (error) throw error;
+    donorStatus.textContent = 'تمت الإضافة';
+    donorStatus.className = 'status success';
+    donorForm.reset();
+    loadDonations();
+  } catch(err) {
+    donorStatus.textContent = 'فشل: ' + (err.message || err);
+    donorStatus.className = 'status error';
+  } finally {
+    addDonorBtn.disabled = false;
+    addDonorBtn.textContent = 'إضافة المتبرع';
+  }
+});
+
+// إضافة وسيلة دفع
+paymentForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  paymentStatus.textContent = '';
+  paymentStatus.className = 'status';
+  addPaymentBtn.disabled = true;
+  addPaymentBtn.textContent = '... جاري الإضافة';
   const title = document.getElementById('title').value.trim();
   const entity_name = document.getElementById('entity_name').value.trim();
   const phone = document.getElementById('phone').value.trim();
-
-  if (!donor_name || !title || !entity_name || !phone || isNaN(amount_usd)) {
-    saveStatus.textContent = 'الرجاء تعبئة جميع الحقول بشكل صحيح';
-    saveStatus.className = 'status error';
-    saveBtn.disabled = false;
-    saveBtn.textContent = 'حفظ السجلات';
+  if (!title || !entity_name || !phone) {
+    paymentStatus.textContent = 'أكمل الحقول';
+    paymentStatus.className = 'status error';
+    addPaymentBtn.disabled = false;
+    addPaymentBtn.textContent = 'إضافة الوسيلة';
     return;
   }
-
   try {
-    const { error } = await supabaseClient
-      .rpc('insert_donation_and_payment', {
-        p_donor_name: donor_name,
-        p_amount_usd: amount_usd,
-        p_title: title,
-        p_entity_name: entity_name,
-        p_phone: phone
-      });
+    const { error } = await supabaseClient.from('payment_details').insert({ title, entity_name, phone });
     if (error) throw error;
-    saveStatus.textContent = 'تم الحفظ بنجاح';
-    saveStatus.className = 'status success';
-    combinedForm.reset();
-  } catch (err) {
-    console.error(err);
-    saveStatus.textContent = 'فشل الحفظ: ' + (err.message || err);
-    saveStatus.className = 'status error';
+    paymentStatus.textContent = 'تمت الإضافة';
+    paymentStatus.className = 'status success';
+    paymentForm.reset();
+    loadPayments();
+  } catch(err) {
+    paymentStatus.textContent = 'فشل: ' + (err.message || err);
+    paymentStatus.className = 'status error';
   } finally {
-    saveBtn.disabled = false;
-    saveBtn.textContent = 'حفظ السجلات';
+    addPaymentBtn.disabled = false;
+    addPaymentBtn.textContent = 'إضافة الوسيلة';
   }
 });
+
+function afterLoginLoadData(){
+  loadDonations();
+  loadPayments();
+}
 
 // عند تحميل الصفحة
 checkSession();

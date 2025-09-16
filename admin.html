@@ -54,26 +54,64 @@
         <button class="btn secondary" id="logout-btn">تسجيل خروج</button>
       </div>
 
-      <form id="combined-form">
+      <!-- نموذج إضافة متبرع -->
+      <form id="donor-form">
         <div class="section">
-          <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">إدخال بيانات التبرع</h3>
+          <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">إضافة متبرع جديد</h3>
           <label for="donor_name">اسم المتبرع</label>
           <input id="donor_name" required />
           <label for="amount_usd" style="margin-top:10px;">المبلغ (دولار)</label>
           <input id="amount_usd" type="number" min="0" step="0.01" required />
+          <button class="btn" style="margin-top:14px;" type="submit" id="add-donor-btn">إضافة المتبرع</button>
+          <div id="donor-status" class="status"></div>
         </div>
-        <div class="section" style="margin-top:14px;">
-          <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">تفاصيل الدفع</h3>
+      </form>
+
+      <div class="section" style="margin-top:8px;">
+        <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">آخر المتبرعين</h3>
+        <table id="donors-table" style="width:100%;border-collapse:collapse;font-size:.8rem;">
+          <thead>
+            <tr style="background:#d7eef7;">
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">#</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">الاسم</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">المبلغ</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">التاريخ</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- نموذج إضافة وسيلة دفع -->
+      <form id="payment-form" style="margin-top:18px;">
+        <div class="section">
+          <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">إضافة وسيلة دفع</h3>
           <label for="title">العنوان</label>
           <input id="title" required />
           <label for="entity_name" style="margin-top:10px;">اسم الجهة</label>
           <input id="entity_name" required />
-          <label for="phone" style="margin-top:10px;">رقم الجوال</label>
+            <label for="phone" style="margin-top:10px;">رقم الجوال / الحساب</label>
           <input id="phone" required />
+          <button class="btn" style="margin-top:14px;" type="submit" id="add-payment-btn">إضافة الوسيلة</button>
+          <div id="payment-status" class="status"></div>
         </div>
-        <button class="btn" style="margin-top:16px;" type="submit" id="save-btn">حفظ السجلات</button>
-        <div id="save-status" class="status"></div>
       </form>
+
+      <div class="section" style="margin-top:8px;">
+        <h3 style="margin:0 0 10px 0;font-size:1rem;color:#1976d2;">وسائل الدفع المخزنة</h3>
+        <table id="payments-table" style="width:100%;border-collapse:collapse;font-size:.8rem;">
+          <thead>
+            <tr style="background:#d7eef7;">
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">#</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">العنوان</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">الجهة</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">الهاتف/الحساب</th>
+              <th style="text-align:right;padding:6px;border:1px solid #c2dbe5;">التاريخ</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
 
     <footer>© يد بيد - صفحة الإدارة</footer>
