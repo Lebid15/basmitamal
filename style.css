@@ -272,6 +272,7 @@ footer {
 .modal .list {max-height:340px;overflow-y:auto;margin:0;padding:0;list-style:none;}
 .modal .list li {padding:6px 8px;border-bottom:1px solid #e0f0f5;display:flex;justify-content:space-between;gap:10px;}
 .modal .list li span.amount {color:#388e3c;font-weight:600;}
+.modal .list li span.amount .currency {color:#1976d2;font-weight:700;margin-left:4px;}
 .modal .close-btn {margin-top:12px;width:100%;background:#607d8b;color:#fff;border:none;padding:8px 0;border-radius:10px;cursor:pointer;font-size:.8rem;}
 .modal .close-btn:hover {background:#546e7a;}
 @media (max-width: 600px) {
