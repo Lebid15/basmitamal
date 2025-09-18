@@ -71,15 +71,6 @@ header {
     justify-content: space-between;
     padding: 0 18px;
 }
-.chat-bar {display:flex;align-items:center;justify-content:space-between;gap:10px;background:#0f172a;color:#e2e8f0;padding:8px 12px;border-bottom:1px solid #0b1224;}
-.chat-bar .left-group{display:flex;align-items:center;gap:8px;position:relative;}
-.chat-title {font-weight:700;letter-spacing:.3px;color:#e2e8f0;}
-.icon-btn {background:#0b1224;color:#e2e8f0;border:1px solid #1f2a44;border-radius:999px;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;line-height:1;}
-.icon-btn:hover{background:#142042;}
-.chat-menu{position:absolute;top:36px;right:0;background:#0b1224;border:1px solid #1f2a44;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.35);min-width:160px;display:none;z-index:50;}
-.chat-menu.open{display:block;}
-.chat-menu .menu-item{display:block;width:100%;background:transparent;border:none;color:#e2e8f0;text-align:right;padding:10px 12px;font-family:'Tajawal',sans-serif;cursor:pointer;}
-.chat-menu .menu-item:hover{background:#142042;}
 .logo {
     font-size: 1.1em;
     color: #1976d2;
