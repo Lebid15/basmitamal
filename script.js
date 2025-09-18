@@ -83,38 +83,4 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('إضافة/مطابقة مع المستخدم رقم ' + userId);
         });
     });
-
-    // Populate chat list and selection behavior
-    const chatList = document.getElementById('chat-list');
-    const chatContent = document.getElementById('chat-content');
-    const layout = document.querySelector('.chat-layout');
-    if(chatList && chatContent){
-        const chats = [
-            {id: 101, name: 'lebid', currency: 'TL', amount: 100, time: '03:39 AM'},
-            {id: 102, name: 'ali', currency: '$', amount: 20, time: '07:20 PM'}
-        ];
-        chatList.innerHTML = chats.map(c=>`<li data-id="${c.id}"><div><div style="font-weight:700;">${c.name}</div><div class="meta">${c.time} — مطابقة: ${c.currency} ${c.amount.toFixed(2)}</div></div><div><span class="icon-btn" title="فتح">›</span></div></li>`).join('');
-
-        chatList.addEventListener('click', (e)=>{
-            const li = e.target.closest('li');
-            if(!li) return;
-            const id = li.getAttribute('data-id');
-            // Load messages for this chat id (placeholder)
-            chatContent.innerHTML = `<div style="padding:16px;">
-                <div style="opacity:.7;margin-bottom:8px;">المحادثة #${id}</div>
-                <div>رسالة 1 ...</div>
-                <div>رسالة 2 ...</div>
-            </div>`;
-            // On mobile, toggle to content view
-            if(window.matchMedia('(max-width: 768px)').matches){
-                layout?.classList.add('show-content');
-            }
-        });
-    }
 });
-
-// Optional: back button handler if you add one later
-function backToList(){
-  const layout = document.querySelector('.chat-layout');
-  layout?.classList.remove('show-content');
-}
