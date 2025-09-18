@@ -12,6 +12,22 @@
 <body>
     <div class="container">
         <header>
+            <div class="chat-bar" aria-label="شريط الدردشات">
+                <div class="left-group">
+                    <span class="chat-title">الدردشات</span>
+                </div>
+                <div class="right-group" style="display:flex;align-items:center;gap:8px;">
+                    <button id="chat-add-btn" class="icon-btn" title="بدء محادثة جديدة" aria-label="بدء محادثة جديدة">+</button>
+                    <div style="position:relative;">
+                        <button id="chat-more-btn" class="icon-btn" title="المزيد" aria-label="المزيد">⋮</button>
+                        <div id="chat-menu" class="chat-menu" role="menu" aria-hidden="true">
+                            <button class="menu-item" data-action="profile">بروفايلي</button>
+                            <button class="menu-item" data-action="matches">مطابقاتي</button>
+                            <button class="menu-item" data-action="logout">تسجيل الخروج</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="header-flex">
                 <div class="logo">يد بيد</div>
                 <img src="images/hands.png" alt="يد بيد" class="header-hands">
