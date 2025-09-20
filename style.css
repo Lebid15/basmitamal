@@ -240,9 +240,9 @@ footer {
 .payment-empty {text-align:center;font-size:.8em;color:#777;margin-top:8px;}
 
 /* Bank Card */
-.bank-card {flex-direction:column;align-items:stretch;gap:6px;}
+.bank-card {flex-direction:column;align-items:stretch;gap:6px;white-space:normal;}
 .bank-card h4 {margin-bottom:4px;}
-.bank-line {display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.bank-line {display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%;justify-content:flex-start;}
 .bank-line span {color:#0d4f88;font-weight:600;}
 .bank-value {background:#e3f2fd;padding:4px 8px;border-radius:6px;border:1px solid #b7d4ec;}
 

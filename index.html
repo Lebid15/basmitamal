@@ -87,9 +87,20 @@
                 const bankCard = `
                     <div class=\"payment-card bank-card\">
                         <h4>حساب بنك</h4>
-                        <div class=\"bank-line\"><span>الاسم:</span> <code id=\"bank-name\" class=\"bank-value\" dir=\"ltr\">MUTAB EL CASIM</code> <button type=\"button\" class=\"copy-btn\" id=\"copy-bank-name\">نسخ</button></div>
-                        <div class=\"bank-line\"><span>IBAN:</span> <code id=\"bank-iban\" class=\"bank-value\" dir=\"ltr\">TR90 0001 0003 8295 0746 9750 01</code> <button type=\"button\" class=\"copy-btn\" id=\"copy-bank-iban\">نسخ</button></div>
-                        <div class=\"bank-line\"><span>واتساب:</span> <a class=\"phone\" href=\"https://wa.me/905364386516\" target=\"_blank\" dir=\"ltr\">+905364386516</a></div>
+                        <div class=\"bank-line\">
+                            <span>الاسم:</span>
+                            <code id=\"bank-name\" class=\"bank-value\" dir=\"ltr\">MUTAB EL CASIM</code>
+                            <button type=\"button\" class=\"copy-btn\" id=\"copy-bank-name\">نسخ</button>
+                        </div>
+                        <div class=\"bank-line\">
+                            <span>IBAN:</span>
+                            <code id=\"bank-iban\" class=\"bank-value\" dir=\"ltr\">TR90 0001 0003 8295 0746 9750 01</code>
+                            <button type=\"button\" class=\"copy-btn\" id=\"copy-bank-iban\">نسخ</button>
+                        </div>
+                        <div class=\"bank-line\">
+                            <span>واتساب:</span>
+                            <a class=\"phone\" href=\"https://wa.me/905364386516\" target=\"_blank\" dir=\"ltr\">+905364386516</a>
+                        </div>
                         <div class=\"copy-hint\" id=\"bank-copy-hint\" style=\"display:none;\">تم النسخ</div>
                     </div>`;
                 const { data, error } = await sb.from('payment_details').select('*').order('id', { ascending:false }).limit(40);
