@@ -125,15 +125,18 @@ logoutBtn?.addEventListener('click', async () => {
 
 // تحميل آخر السجلات
 async function loadDonations() {
-  donorsTableBody && (donorsTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">... تحميل</td></tr>');
-  const { data, error } = await supabaseClient.from('donations').select('*').order('id', { ascending: false }).limit(20);
+  donorsTableBody && (donorsTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">... تحميل</td></tr>');
+  const { data, error } = await supabaseClient
+    .from('donations')
+    .select('*')
+    .order('id', { ascending: false });
   if (!donorsTableBody) return;
   if (error) {
-    donorsTableBody.innerHTML = `<tr><td colspan="4" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
+    donorsTableBody.innerHTML = `<tr><td colspan="5" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
     return;
   }
   if (!data.length) {
-    donorsTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
+    donorsTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
     return;
   }
   donorsTableBody.innerHTML = data.map(row => `
@@ -152,15 +155,18 @@ async function loadDonations() {
 
 // تحميل متبرعين الليرة
 async function loadDonationsTl() {
-  donorsTlTableBody && (donorsTlTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">... تحميل</td></tr>');
-  const { data, error } = await supabaseClient.from('donations_tl').select('*').order('id', { ascending: false }).limit(20);
+  donorsTlTableBody && (donorsTlTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">... تحميل</td></tr>');
+  const { data, error } = await supabaseClient
+    .from('donations_tl')
+    .select('*')
+    .order('id', { ascending: false });
   if (!donorsTlTableBody) return;
   if (error) {
-    donorsTlTableBody.innerHTML = `<tr><td colspan="4" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
+    donorsTlTableBody.innerHTML = `<tr><td colspan="5" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
     return;
   }
   if (!data.length) {
-    donorsTlTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
+    donorsTlTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
     return;
   }
   donorsTlTableBody.innerHTML = data.map(row => `
@@ -178,15 +184,15 @@ async function loadDonationsTl() {
 // نهاية loadDonations
 
 async function loadPayments() {
-  paymentsTableBody && (paymentsTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">... تحميل</td></tr>');
+  paymentsTableBody && (paymentsTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">... تحميل</td></tr>');
   const { data, error } = await supabaseClient.from('payment_details').select('*').order('id', { ascending: false }).limit(30);
   if (!paymentsTableBody) return;
   if (error) {
-    paymentsTableBody.innerHTML = `<tr><td colspan="4" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
+    paymentsTableBody.innerHTML = `<tr><td colspan="5" style="padding:6px;color:#d32f2f;">خطأ: ${error.message}</td></tr>`;
     return;
   }
   if (!data.length) {
-    paymentsTableBody.innerHTML = '<tr><td colspan="4" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
+    paymentsTableBody.innerHTML = '<tr><td colspan="5" style="padding:6px;text-align:center;">لا يوجد بيانات</td></tr>';
     return;
   }
   paymentsTableBody.innerHTML = data.map(row => `
