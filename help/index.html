@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>شاشة عرض التبرعات</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="help.css?v=20251001a" />
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+    <div id="stage">
+        <header class="event-header" aria-label="ملخص المتبرعين والرعاة">
+            <div class="header-left" dir="rtl">
+                <div class="event-highlight">
+                    قام <span id="latest-donor-name">---</span> بالتبرع بمبلغ <span id="latest-donor-amount">---</span>
+                </div>
+            </div>
+            <div class="header-right" dir="rtl">
+                <span class="event-sponsor-text">هذه الحملة برعاية فريق يد بيد وفريق بذرة أمل</span>
+                <img class="event-emblem" src="../images/img1.jpg" alt="شعار الأيدي المتعاونة" />
+                <button id="fullscreen-toggle" type="button" aria-label="تفعيل وضع العرض">
+                    <svg class="fullscreen-icon" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                        <path d="M7 5H5v2m0 10v2h2m10 0h2v-2m0-10V5h-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+        <div class="dashboard" role="presentation">
+    <aside class="panel panel-left" data-currency="usd" aria-label="أعلى التبرعات بالدولار">
+            <h2 class="panel-title">أعلى التبرعات بالدولار</h2>
+            <ul class="donor-list" id="top-usd" data-currency="usd">
+                <li class="donor-item">
+                    <span class="donor-name">—</span>
+                    <span class="donor-amount" dir="ltr">$0</span>
+                </li>
+            </ul>
+        </aside>
+        <main class="center-stack">
+             <section class="totals" aria-label="إجماليات التبرعات">
+                 <div class="total-card total-usd">
+                     <span class="total-label">إجمالي التبرعات بالدولار</span>
+                     <span class="total-value" id="total-usd" dir="ltr">$0</span>
+                 </div>
+                <div class="total-card total-tl">
+                    <span class="total-label">إجمالي التبرعات بالليرة التركية</span>
+                    <span class="total-value" id="total-tl" dir="ltr">₺0</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">عدد المتبرعين</span>
+                    <span class="summary-value" id="total-donors" dir="ltr">0</span>
+                </div>
+            </section>
+        </main>
+    <aside class="panel panel-right" data-currency="tl" aria-label="أعلى التبرعات بالليرة التركية">
+            <h2 class="panel-title">أعلى التبرعات بالليرة التركية</h2>
+            <ul class="donor-list" id="top-tl" data-currency="tl">
+                <li class="donor-item">
+                    <span class="donor-name">—</span>
+                    <span class="donor-amount" dir="ltr">₺0</span>
+                </li>
+            </ul>
+        </aside>
+        </div>
+    </div>
+    <script src="help.js" defer></script>
+</body>
+</html>
